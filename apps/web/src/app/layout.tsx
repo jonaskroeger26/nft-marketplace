@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { SolanaProvider } from "@/components/SolanaProvider";
 import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -16,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "NFT Marketplace",
-  description: "Solana NFT marketplace with SKR dual settlement",
+  description: "Solana NFT marketplace — Magic Eden–style trading",
 };
 
 export default function RootLayout({
@@ -27,11 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-zinc-950 text-zinc-100 antialiased`}
+        className={`${inter.variable} ${geistMono.variable} flex min-h-screen flex-col bg-[#0b0b0b] text-neutral-100 antialiased`}
       >
         <SolanaProvider>
           <Nav />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
+          <Footer />
         </SolanaProvider>
       </body>
     </html>

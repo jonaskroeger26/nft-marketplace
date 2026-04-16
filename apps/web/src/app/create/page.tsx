@@ -2,6 +2,13 @@
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
+import {
+  MeButton,
+  MeInput,
+  MeLabel,
+  MePanel,
+  PageShell,
+} from "@/components/me/PageShell";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8787";
 
@@ -32,50 +39,38 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-10">
-      <h1 className="text-2xl font-semibold">Creator studio</h1>
-      <p className="mt-2 text-sm text-zinc-500">
-        Mint NFTs / cNFTs with Metaplex (Bubblegum) from your wallet, then
-        submit the collection mint for review. Wire your mint flow here; this
-        form registers a submission with the moderation API.
-      </p>
-      <div className="mt-6 space-y-3">
-        <label className="block text-sm">
-          Collection mint
-          <input
-            className="mt-1 w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm"
-            value={mint}
-            onChange={(e) => setMint(e.target.value)}
-            placeholder="Address"
-          />
-        </label>
-        <label className="block text-sm">
-          Title
-          <input
-            className="mt-1 w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-        <label className="block text-sm">
-          Metadata URI
-          <input
-            className="mt-1 w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm"
-            value={uri}
-            onChange={(e) => setUri(e.target.value)}
-          />
-        </label>
-        <button
-          type="button"
-          onClick={submit}
-          className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white"
-        >
+    <PageShell
+      eyebrow="Create"
+      title="Launchpad"
+      description="Mint NFTs / cNFTs with Metaplex (Bubblegum), then submit the collection mint for review via the moderation API."
+    >
+      <MePanel className="max-w-lg space-y-4">
+        <MeLabel htmlFor="col-mint">Collection mint</MeLabel>
+        <MeInput
+          id="col-mint"
+          value={mint}
+          onChange={(e) => setMint(e.target.value)}
+          placeholder="Address"
+        />
+        <MeLabel htmlFor="title">Title</MeLabel>
+        <MeInput
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <MeLabel htmlFor="uri">Metadata URI</MeLabel>
+        <MeInput
+          id="uri"
+          value={uri}
+          onChange={(e) => setUri(e.target.value)}
+        />
+        <MeButton className="mt-6" onClick={submit}>
           Submit for review
-        </button>
-      </div>
-      {msg && (
-        <pre className="mt-4 text-xs text-zinc-400">{msg}</pre>
-      )}
-    </div>
+        </MeButton>
+        {msg && (
+          <pre className="mt-4 text-xs text-neutral-500">{msg}</pre>
+        )}
+      </MePanel>
+    </PageShell>
   );
 }

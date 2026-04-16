@@ -4,6 +4,13 @@ import { makeOfferSolIx } from "@nft/sdk";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL, PublicKey, Transaction } from "@solana/web3.js";
 import { useState } from "react";
+import {
+  MeButton,
+  MeInput,
+  MeLabel,
+  MePanel,
+  PageShell,
+} from "@/components/me/PageShell";
 
 export default function TradePage() {
   const { connection } = useConnection();
@@ -36,37 +43,36 @@ export default function TradePage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-10">
-      <h1 className="text-2xl font-semibold">Offers</h1>
-      <p className="mt-2 text-sm text-zinc-500">
-        Collection / trait bids and floor sweeps use the same settlement stack;
-        wire trait filters against your indexer.
-      </p>
-      <label className="mt-4 block text-sm">
-        NFT mint
-        <input
-          className="mt-1 w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 font-mono text-xs"
+    <PageShell
+      eyebrow="Trade"
+      title="Offers"
+      description="Collection / trait bids and floor sweeps use the same settlement stack; wire trait filters against your indexer."
+    >
+      <MePanel className="max-w-lg space-y-4">
+        <MeLabel htmlFor="mint">NFT mint</MeLabel>
+        <MeInput
+          id="mint"
+          className="font-mono text-xs"
           value={mint}
           onChange={(e) => setMint(e.target.value)}
+          placeholder="Mint address"
         />
-      </label>
-      <label className="mt-3 block text-sm">
-        Offer (SOL)
-        <input
+        <MeLabel htmlFor="offer">Offer (SOL)</MeLabel>
+        <MeInput
+          id="offer"
           type="number"
-          className="mt-1 w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2"
           value={offer}
           onChange={(e) => setOffer(e.target.value)}
         />
-      </label>
-      <button
-        type="button"
-        onClick={sendOffer}
-        className="mt-4 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white"
-      >
-        Make offer (SOL)
-      </button>
-      {log && <p className="mt-4 font-mono text-xs break-all">{log}</p>}
-    </div>
+        <MeButton className="mt-6" onClick={sendOffer}>
+          Make offer (SOL)
+        </MeButton>
+        {log && (
+          <p className="mt-4 break-all font-mono text-xs text-neutral-400">
+            {log}
+          </p>
+        )}
+      </MePanel>
+    </PageShell>
   );
 }

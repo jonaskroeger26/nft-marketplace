@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MePanel, PageShell } from "@/components/me/PageShell";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8787";
 
@@ -35,44 +36,49 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="text-2xl font-semibold">Review queue</h1>
-      <p className="text-sm text-zinc-500">
-        Approve collections before they appear in discovery (API gate).
-      </p>
-      <div className="mt-6 space-y-3">
+    <PageShell
+      eyebrow="Admin"
+      title="Review queue"
+      description="Approve collections before they appear in discovery (API gate)."
+    >
+      <div className="space-y-3">
         {rows.map((r) => (
-          <div
-            key={r.id}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-zinc-800 p-3 text-sm"
-          >
-            <div>
-              <div className="font-mono text-xs text-zinc-400">{r.collection_mint}</div>
-              <div>{r.title || "(no title)"}</div>
-              <div className="text-zinc-500">status: {r.status}</div>
+          <MePanel key={r.id} className="!p-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="min-w-0">
+                <div className="font-mono text-xs text-neutral-500">
+                  {r.collection_mint}
+                </div>
+                <div className="mt-1 font-medium text-white">
+                  {r.title || "(no title)"}
+                </div>
+                <div className="mt-1 text-xs text-neutral-500">
+                  status: {r.status}
+                </div>
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <button
+                  type="button"
+                  className="rounded-lg bg-emerald-600/90 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-500"
+                  onClick={() => moderate(r.id, "approved")}
+                >
+                  Approve
+                </button>
+                <button
+                  type="button"
+                  className="rounded-lg bg-red-600/70 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-red-600"
+                  onClick={() => moderate(r.id, "rejected")}
+                >
+                  Reject
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                className="rounded bg-emerald-800 px-2 py-1 text-xs"
-                onClick={() => moderate(r.id, "approved")}
-              >
-                Approve
-              </button>
-              <button
-                type="button"
-                className="rounded bg-red-900/60 px-2 py-1 text-xs"
-                onClick={() => moderate(r.id, "rejected")}
-              >
-                Reject
-              </button>
-            </div>
-          </div>
+          </MePanel>
         ))}
         {rows.length === 0 && (
-          <p className="text-zinc-500">No submissions yet.</p>
+          <p className="text-sm text-neutral-500">No submissions yet.</p>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 }
