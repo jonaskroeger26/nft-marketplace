@@ -7,7 +7,7 @@ Tensor / Magic Eden–style surface: listings (SOL + SKR), Jupiter swap path, ca
 - `programs/marketplace` — Anchor program (list, delist, buy SOL/SKR, offers, open pack).
 - `packages/sdk` — TypeScript helpers (PDAs, instructions, Jupiter quote, DAS helpers).
 - `apps/web` — Next.js UI (wallet, market, cart, create, admin, packs).
-- `services/api` — Hono + SQLite (submissions, moderation, listing cache, activity).
+- `services/api` — Hono + JSON file store under `.data/` (submissions, moderation, listing cache, activity).
 - `services/indexer` — Polls program signatures and posts activity to the API.
 
 ## Prerequisites
@@ -37,11 +37,35 @@ cargo update -p unicode-segmentation --precise 1.12.0
 
 ## Quick start
 
+**Run every command from the project root** (the folder that contains `package.json`), not from `~`.
+
+If the project is on your Desktop:
+
+```bash
+cd "/Users/jonaskroeger/Desktop/NFT Marketplace"
+```
+
+If you only have the GitHub clone elsewhere:
+
+```bash
+git clone https://github.com/jonaskroeger26/nft-marketplace.git
+cd nft-marketplace
+```
+
+Then:
+
 ```bash
 npm install
 npm run build -w @nft/sdk
 npm run dev:api
 npm run dev:web
+```
+
+Anchor program (optional; requires Rust + Anchor):
+
+```bash
+cd "/Users/jonaskroeger/Desktop/NFT Marketplace"   # same project root
+npm run anchor:build
 ```
 
 Set `NEXT_PUBLIC_API_URL` for the web app to reach the API. Use `NEXT_PUBLIC_SOLANA_RPC` (e.g. Helius devnet/mainnet).
